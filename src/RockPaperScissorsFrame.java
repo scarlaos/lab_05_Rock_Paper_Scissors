@@ -55,30 +55,53 @@ public class RockPaperScissorsFrame extends JFrame {
 
     private void createButtonPanel() {
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1,6));
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBorder(new EtchedBorder());
+
+        titleLabel = new JLabel("Rock Paper Scissors Game");
+        titleLabel.setFont(new Font(Font.SERIF, Font.BOLD, 28));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPanel.add(titleLabel);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(Box.createVerticalGlue());
+
+
+        JPanel buttonRow = new JPanel();
+        buttonRow.setLayout(new  BoxLayout(buttonRow, BoxLayout.X_AXIS));
+        buttonRow.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
         rockButton = new JButton(new ImageIcon("src/rockimage.jpg"));
         rockButton.addActionListener(e -> playGame("Rock"));
 
+
+
         paperButton = new JButton(new ImageIcon("src/paperimage.jpg"));
         paperButton.addActionListener(e -> playGame("Paper"));
+
+
 
         scissorsButton = new JButton(new ImageIcon("src/scissorsimage.jpg"));
         scissorsButton.addActionListener(e -> playGame("Scissors"));
 
+
         quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> System.exit(0));
 
-        buttonPanel.add(rockButton);
-        buttonPanel.add(paperButton);
-        buttonPanel.add(scissorsButton);
-        buttonPanel.add(quitButton);
+        Dimension buttonSize = new Dimension(150, 175);
+        rockButton.setPreferredSize(buttonSize);
+        paperButton.setPreferredSize(buttonSize);
+        scissorsButton.setPreferredSize(buttonSize);
+        quitButton.setPreferredSize(buttonSize);
 
+        buttonRow.add(rockButton);
+        buttonRow.add(paperButton);
+        buttonRow.add(scissorsButton);
+        buttonRow.add(quitButton);
 
-        titleLabel = new JLabel("Rock Paper Scissors");
-        titleLabel.setFont(new Font(Font.SERIF, Font.BOLD, 28));
-        buttonPanel.add(titleLabel);
+        buttonPanel.add(buttonRow);
+        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+
     }
 
     private void createStatsPanel() {
@@ -106,6 +129,7 @@ public class RockPaperScissorsFrame extends JFrame {
         statsPanel.add(tiesLabel);
         statsPanel.add(tiesField);
 
+        mainPanel.add(statsPanel, BorderLayout.CENTER);
     }
 
     private void createResultsPanel() {
@@ -120,10 +144,10 @@ public class RockPaperScissorsFrame extends JFrame {
         scroller = new JScrollPane(resultField);
         resultPanel.add(scroller, BorderLayout.CENTER);
 
-
+        mainPanel.add(resultPanel, BorderLayout.SOUTH);
     }
 
-    Strategy strategy = new CheatStrategyDemo.Cheat();
+    Strategy strategy = new RandomStrategy();
     public void playGame(String playersChoice) {
         String computerChoice = strategy.getMove(playersChoice);
 
@@ -133,7 +157,9 @@ public class RockPaperScissorsFrame extends JFrame {
             ties++;
 
         }
-        else if(playersChoice.equals("Rock") && computerChoice.equals("Scissors") || playersChoice.equals("Paper") && computerChoice.equals("Rock") || playersChoice.equals("Scissors") && computerChoice.equals("Paper")) {
+        else if(playersChoice.equals("Rock") && computerChoice.equals("Scissors")
+                || playersChoice.equals("Paper") && computerChoice.equals("Rock")
+                || playersChoice.equals("Scissors") && computerChoice.equals("Paper")) {
             result = "You win! " + playersChoice + " beats " + computerChoice;
             playerWins++;
         }else{
