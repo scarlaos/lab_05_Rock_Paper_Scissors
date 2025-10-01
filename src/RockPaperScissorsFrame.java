@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class RockPaperScissorsFrame extends JFrame {
@@ -47,7 +48,7 @@ public class RockPaperScissorsFrame extends JFrame {
         createResultsPanel();
         mainPanel.add(resultPanel, BorderLayout.SOUTH);
 
-        setSize(600, 400);
+        setSize(700, 600);
         setTitle("Rock, Paper, Scissors Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -86,13 +87,14 @@ public class RockPaperScissorsFrame extends JFrame {
 
 
         quitButton = new JButton("Quit");
+        quitButton.setIcon(new ImageIcon(new BufferedImage(50,400, BufferedImage.TYPE_INT_ARGB))); //trying different ways to get the quit button to be a reasonable size
         quitButton.addActionListener(e -> System.exit(0));
 
-        Dimension buttonSize = new Dimension(150, 175);
+        Dimension buttonSize = new Dimension(50, 400);
         rockButton.setPreferredSize(buttonSize);
         paperButton.setPreferredSize(buttonSize);
         scissorsButton.setPreferredSize(buttonSize);
-        quitButton.setPreferredSize(buttonSize);
+
 
         buttonRow.add(rockButton);
         buttonRow.add(paperButton);
