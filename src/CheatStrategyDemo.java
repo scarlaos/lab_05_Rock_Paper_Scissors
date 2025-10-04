@@ -18,7 +18,7 @@ public class CheatStrategyDemo {
                     computerMove = "Rock";
                     break;
                 default:
-                    computerMove = "X";
+                    computerMove = "Rock";
                     break;
             }
             return computerMove;
